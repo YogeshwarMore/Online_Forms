@@ -14,25 +14,26 @@ public class FormGroup {
     @Column(name = "formgroupid")
     private long formgroupid;
     @Column(name = "name")
-    private String name;
+    private String groupname;
     @Column(name = "indexs")
     private int indexs;
     @JsonIgnore
     @ManyToOne()
     @JoinColumn(name = "versionid")
-    private versions versionid;
+    private Versions versionid;
 
-    public List<formField> getFormfield() {
+    public List<FormField> getFormfield() {
         return formfield;
     }
 
-    public void setFormfield(List<formField> formfield) {
+    public void setFormfield(List<FormField> formfield) {
         this.formfield = formfield;
     }
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "formgroupid")
-    private List<formField> formfield =new ArrayList<>();
+    private List<FormField> formfield = new ArrayList<>();
+
     public long getFormgroupid() {
         return formgroupid;
     }
@@ -41,20 +42,20 @@ public class FormGroup {
         this.formgroupid = formgroupid;
     }
 
-    public versions getVersionid() {
+    public Versions getVersionid() {
         return versionid;
     }
 
-    public void setVersionid(versions versionid) {
+    public void setVersionid(Versions versionid) {
         this.versionid = versionid;
     }
 
     public String getName() {
-        return name;
+        return groupname;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.groupname = name;
     }
 
     public int getIndexs() {

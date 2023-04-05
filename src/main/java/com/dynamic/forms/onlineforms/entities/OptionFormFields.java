@@ -3,18 +3,19 @@ package com.dynamic.forms.onlineforms.entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "optionformfields" )
-public class optionformfields {
+@Table(name = "optionformfields")
+public class OptionFormFields {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long optionformfieldsid;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "optionformfieldsid")
+    private long optionformfieldsid;
 
     @ManyToOne
     @JoinColumn(name = "formfieldid")
-    private formField formField;
+    private FormField formField;
     @ManyToOne
     @JoinColumn(name = "optionid")
-    private options option;
+    private Options option;
 
     public Long getOptionformfieldsid() {
         return optionformfieldsid;
@@ -24,19 +25,19 @@ public class optionformfields {
         this.optionformfieldsid = optionformfieldsid;
     }
 
-    public com.dynamic.forms.onlineforms.entities.formField getFormField() {
+    public FormField getFormField() {
         return formField;
     }
 
-    public void setFormField(com.dynamic.forms.onlineforms.entities.formField formField) {
+    public void setFormField(FormField formField) {
         this.formField = formField;
     }
 
-    public options getOption() {
+    public Options getOption() {
         return option;
     }
 
-    public void setOption(options option) {
+    public void setOption(Options option) {
         this.option = option;
     }
 

@@ -1,13 +1,14 @@
 package com.dynamic.forms.onlineforms.controller;
 
 //import com.dynamic.forms.onlineforms.entities.versions;
-import com.dynamic.forms.onlineforms.dto.FilledFormDTO;
-import com.dynamic.forms.onlineforms.dto.FormVersionDTO;
+import com.dynamic.forms.onlineforms.dto.*;
 import com.dynamic.forms.onlineforms.entities.Form;
 import com.dynamic.forms.onlineforms.entities.*;
 
-import com.dynamic.forms.onlineforms.services.formsServices;
+import com.dynamic.forms.onlineforms.services.FormsServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,68 +17,117 @@ import java.util.List;
 @RestController
 public class MyController {
     @Autowired
-    private formsServices fs;
+    private FormsServices fs;
 
 
-    @PostMapping("/form")
-    public Form saveForm(@RequestBody Form form) { return this.fs.saveform(form); }
+
+    //<editor-fold desc="Post Mapping Form">
+
+    @PostMapping("/Forms")
+        public Form createForms(
+                @RequestBody  CreateFormDTO obj)
+        {
+            return fs.createForms(obj);
+        }
+
+
+    @PostMapping("/forms")
+
+    public ResponseEntity<Form> createForm(
+            @RequestBody FormDTO form) {
+
+        return new ResponseEntity<>(fs.createForm(form), HttpStatus.CREATED);
+    }
+
+
+
+    @PostMapping("/forms/{groupid}")
+
+    public ResponseEntity<FormField> createFields
+            (@RequestBody InsertFormDTO form,
+             @PathVariable Long groupid) {
+
+        return new ResponseEntity<>(fs.createFields(form,groupid), HttpStatus.CREATED);
+    }
+
+//    @PostMapping("/forms")
+//    public ResponseEntity<Versions> createVersion(
+//            @RequestBody VersionsDTO version) {
+//
+//    return new ResponseEntity<>(fs.createVersion(version), HttpStatus.CREATED);
+//    }
+    //</editor-fold>
+
+    //<editor-fold desc="Get Mapping Form">
+    @GetMapping("/forms/version")
+    public  List<FormVersionDTO> getFormVersion() {
+
+        return fs.getFormVersion();
+    }
 
     @GetMapping("/forms")
-    public List<Form> getForms()
-    {
-      return this.fs.getForms();
-    }
-//
-//    @GetMapping("/versions")
-//    public List<versions> getVersion()
-//    {
-//        return this.fs.getVersions();
-//    }
-//
-//
-//    @GetMapping("/group")
-//    public List<formGroup> getGroup()
-//    {
-//        return  this.fs.getGroup();
-//    }
-//    @GetMapping("/field")
-//    public List<formField> getField()
-//    {
-//        return  this.fs.getField();
-//    }
-//
-//    @GetMapping("/filledformfield")
-//    public List<filledFormField> filledFormFields(){return fs.getFilledFieldForm();}
+    public List<Form> getForms() {
 
-    @GetMapping("/form/{Fid}/{vnum}")
-    public List<Form> getGroup(@PathVariable Long Fid,@PathVariable Float vnum)
-    {
-        return  this.fs.getGroup(Fid,vnum);
-    }
-//    @PutMapping("/group/{Fid}/{vnum}")
-//    public List<Form> updateFields(@RequestBody Form form,@PathVariable Long Fid,@PathVariable Float vnum)
-//    {
-//        return  this.fs.updateField(form,Fid,vnum);
-//    }
-    @GetMapping("/forms/version")
-    public  List<FormVersionDTO> getformversion()
-    {
-        return fs.getformversion();
+        return this.fs.getForms();
     }
 
-    @GetMapping("/filledforms/{id}/{vnum}/{userid}")
-    public List<FilledFormDTO> getFilledForm(@PathVariable Long id,@PathVariable Float vnum,@PathVariable Long userid)
-    {return fs.getFilledForm(id,vnum,userid); }
+    @GetMapping("/forms/formid/{Fid}/versionid/{vid}")
+    public List<FormFieldDTO> getForm(
+            @PathVariable Long formid,
+            @PathVariable Long versionid) {
 
-    @GetMapping("/forms/{id}")
-    public Form getFormById(@PathVariable int id)
+        return  this.fs.getForm(formid,versionid);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Put Mapping Form">
+    @PutMapping("/forms/{formid}")
+    public Form updateForm(@RequestBody Form form,@PathVariable Long formid)
     {
-        return this.fs.getFormById(id);
+        return fs.updateForm(form,formid);
     }
 
-    @GetMapping("/form/{id}/{vnum}/{userid}")
-    public List<Form> getuserform(@PathVariable Long id,@PathVariable Long vnum,@PathVariable int userid){
-        return this.fs.getuserform(id,vnum,userid);
+    @PutMapping("/forms/version/{versionid}")
+    public Versions updateVersion(@RequestBody Versions version, @PathVariable Long versionid)
+    {
+        return fs.updateVersion(version,versionid);
     }
+
+    @PutMapping("/forms/field/{fieldid}")
+    public FormField updateField(@RequestBody FormField formfield,@PathVariable Long fieldid )
+    {
+        return fs.updateField(formfield,fieldid);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Delete Mapping Form">
+    @DeleteMapping("forms/{formid}")
+    public void deleteForm(@PathVariable Long formid)
+    {
+        fs.deleteForm(formid);
+    }
+
+    @DeleteMapping("forms/{versionid}")
+    public void deleteVersion(@PathVariable Long versionid){
+        fs.delectVersion(versionid);
+    }
+    @DeleteMapping("/forms/{formgroup}")
+    public void deletefield(@PathVariable Long formGroupId)
+    {
+        fs.deleteField(formGroupId);
+    }
+    //</editor-fold>
+
+    @GetMapping("forms/{filledFormId}")
+    public List<GetFilledFormDTO> getFilledForm(@PathVariable Long filledFormId){
+
+        return fs.getFilledForm(filledFormId);
+    }
+    @PostMapping("forms/{versionid}/{userid}")
+    public FilledForm getFilledForm(@RequestBody FilledFormFieldDTO ffdto,@PathVariable  Long versionid,@PathVariable  Long userid)
+    {
+        return fs.getFilledForm(ffdto,versionid,userid);
+    }
+
 
 }

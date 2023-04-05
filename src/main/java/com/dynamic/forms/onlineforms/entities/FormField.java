@@ -7,30 +7,31 @@ import java.util.List;
 
 @Entity
 @Table(name = "formfield")
-public class formField {
+public class FormField {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "formfieldid")
-    private long formfieldid;
+    private Long formfieldid;
     @JsonIgnore
     @ManyToOne()
-    @JoinColumn(name = "formgroupid")
+    @JoinColumn(name = "formgroupid", referencedColumnName = "formgroupid")
     private FormGroup formgroupid;
 
     @Column(name = "fieldname")
     private String fieldname;
     @ManyToOne
-    @JoinColumn(name = "toolid")
+    @JsonIgnore
+    @JoinColumn(name = "toolid", referencedColumnName = "toolid")
     private ToolBox toolid;
     @Column(name = "indexs")
     private int indexs;
     @Column(name = "isoptional")
     private int isoptional;
-    @ManyToMany()
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "optionformfields",
-            joinColumns=@JoinColumn(
+            joinColumns = @JoinColumn(
                     name = "formfieldid"
 
             ),
@@ -39,7 +40,7 @@ public class formField {
 
             )
     )
-    private List<options> option;
+    private List<Options> option;
 
 //    public void addoptions(options op)
 //    {
@@ -47,13 +48,14 @@ public class formField {
 //        option.add(op);
 //    }
 
-    public List<options> getOption() {
+    public List<Options> getOption() {
         return option;
     }
 
-    public void setOption(List<options> option) {
+    public void setOption(List<Options> option) {
         this.option = option;
     }
+
     public long getFormfieldid() {
         return formfieldid;
     }
@@ -101,7 +103,6 @@ public class formField {
     public void setIsoptional(int isoptional) {
         this.isoptional = isoptional;
     }
-
 
 
 }

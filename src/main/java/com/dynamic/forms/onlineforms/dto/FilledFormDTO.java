@@ -1,47 +1,38 @@
 package com.dynamic.forms.onlineforms.dto;
 
-import com.dynamic.forms.onlineforms.entities.Form;
-import com.dynamic.forms.onlineforms.entities.filledForm;
-import com.dynamic.forms.onlineforms.entities.filledFormField;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.List;
+import java.util.Date;
 
+
+@Setter
+@Getter
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FilledFormDTO {
-    private String formname;
-    private String Description;
+    private long filledformid;
 
-    private List<filledForm> filledFormList;
+    private Long versionid;
 
-    public FilledFormDTO(String formname, String description, List<filledForm> filledFormList) {
-        this.formname = formname;
-        Description = description;
-        this.filledFormList = filledFormList;
+    private int userid;
+
+    private Date filldate;
+
+
+
+
+
+
+
+
     }
 
-    public String getFormname() {
-        return formname;
-    }
 
-    public void setFormname(String formname) {
-        this.formname = formname;
-    }
 
-    public String getDescription() {
-        return Description;
-    }
 
-    public void setDescription(String description) {
-        Description = description;
-    }
 
-    public List<filledForm> getFilledFormList() {
-        return filledFormList;
-    }
 
-    public void setFilledFormList(List<filledForm> filledFormList) {
-        this.filledFormList = filledFormList;
-    }
-}
+

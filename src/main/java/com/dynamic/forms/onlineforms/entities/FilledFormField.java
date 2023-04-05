@@ -10,7 +10,7 @@ import java.util.Date;
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "filledformfield")
-public class filledFormField {
+public class FilledFormField {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -18,26 +18,26 @@ public class filledFormField {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "filledformid")
-    private filledForm filledformid;
+    private FilledForm filledformid;
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name="formfieldid")
-    private formField formfieldid;
+    @JoinColumn(name = "formfieldid")
+    private FormField formfieldid;
     private Integer ischecked;
     private String textvalue;
     private Long numericvalue;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date datetimevalue;
     @ManyToOne
-    @JoinColumn(name ="optionid")
-    private options optionid;
+    @JoinColumn(name = "optionid")
+    private Options optionid;
 
 
-
-    public options getOptionid() {
+    public Options getOptionid() {
         return optionid;
     }
 
-    public void setOptionid(options optionid) {
+    public void setOptionid(Options optionid) {
         this.optionid = optionid;
     }
 
@@ -49,19 +49,19 @@ public class filledFormField {
         this.filledformfieldid = filledformfieldid;
     }
 
-    public filledForm getFilledformid() {
+    public FilledForm getFilledformid() {
         return filledformid;
     }
 
-    public void setFilledformid(filledForm filledformid) {
+    public void setFilledformid(FilledForm filledformid) {
         this.filledformid = filledformid;
     }
 
-    public formField getFormfieldid() {
+    public FormField getFormfieldid() {
         return formfieldid;
     }
 
-    public void setFormfieldid(formField formfieldid) {
+    public void setFormfieldid(FormField formfieldid) {
         this.formfieldid = formfieldid;
     }
 
@@ -96,7 +96,6 @@ public class filledFormField {
     public void setDatetimevalue(Date datetimevalue) {
         this.datetimevalue = datetimevalue;
     }
-
 
 
 }

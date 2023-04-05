@@ -8,23 +8,37 @@ import java.util.List;
 
 @Entity
 @Table(name = "versions")
-public class versions {
+public class Versions {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
 
     @Column(name = "versionid")
     private long versionid;
-    @Column(name ="versionnumber" )
+    @Column(name = "versionnumber")
     private float versionnumber;
     @ManyToOne()
     @JsonIgnore
-    @JoinColumn(name= "formid",referencedColumnName = "formid")
+    @JoinColumn(name = "formid", referencedColumnName = "formid")
     private Form formid;
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "versionid")
-    private List<FormGroup> formgroup =new ArrayList<>();
+    private List<FormGroup> formgroup = new ArrayList<>();
+
+
+    public List<FilledForm> getFilledFormList() {
+        return filledFormList;
+    }
+
+    public void setFilledFormList(List<FilledForm> filledFormList) {
+        this.filledFormList = filledFormList;
+    }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "versionid")
+    private List<FilledForm> filledFormList = new ArrayList<>();
 
     public List<FormGroup> getFormgroup() {
         return formgroup;
@@ -34,14 +48,14 @@ public class versions {
         this.formgroup = formgroup;
     }
 
-    public versions() {
+    public Versions() {
     }
 
     public long getVersionid() {
         return versionid;
     }
 
-    public versions(long versionid, float versionnumber, Form formid) {
+    public Versions(long versionid, float versionnumber, Form formid) {
         this.versionid = versionid;
         this.versionnumber = versionnumber;
         this.formid = formid;

@@ -1,7 +1,6 @@
 package com.dynamic.forms.onlineforms.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -13,7 +12,7 @@ import java.util.List;
 @Entity
 @DynamicUpdate
 @Table(name = "form")
-public class Form{
+public class Form {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -28,27 +27,16 @@ public class Form{
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date changedate;
 
-    public List<filledForm> getFilledFormList() {
-        return filledFormList;
-    }
-
-    public void setFilledFormList(List<filledForm> filledFormList) {
-        this.filledFormList = filledFormList;
-    }
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "formid")
-    private List<filledForm> filledFormList =new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "formid")
-    private List<versions> versionsList =new ArrayList<>();
+    private List<Versions> versionsList = new ArrayList<>();
 
-    public List<versions> getVersionsList() {
+    public List<Versions> getVersionsList() {
         return versionsList;
     }
 
-    public void setVersionsList(List<versions> versionsList) {
+    public void setVersionsList(List<Versions> versionsList) {
         this.versionsList = versionsList;
     }
 
