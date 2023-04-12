@@ -20,7 +20,7 @@ import java.util.List;
 public class FilledForm {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "filledformid")
     private long filledformid;
     @ManyToOne

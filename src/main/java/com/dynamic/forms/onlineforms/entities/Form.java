@@ -15,7 +15,7 @@ import java.util.List;
 public class Form {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "formid")
     private int formid;
     @Column(name = "formname")

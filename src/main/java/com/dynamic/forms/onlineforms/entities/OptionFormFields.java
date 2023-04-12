@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "optionformfields")
 public class OptionFormFields {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "optionformfieldsid")
     private long optionformfieldsid;
 

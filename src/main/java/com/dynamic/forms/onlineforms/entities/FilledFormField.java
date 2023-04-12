@@ -13,7 +13,7 @@ import java.util.Date;
 public class FilledFormField {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long filledformfieldid;
     @JsonIgnore
     @ManyToOne

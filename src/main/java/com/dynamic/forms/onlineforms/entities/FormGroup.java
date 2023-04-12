@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "formgroup")
 public class FormGroup {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "formgroupid")
     private long formgroupid;
     @Column(name = "name")

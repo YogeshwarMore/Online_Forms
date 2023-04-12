@@ -10,7 +10,7 @@ import java.util.List;
 public class FormField {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "formfieldid")
     private Long formfieldid;
     @JsonIgnore

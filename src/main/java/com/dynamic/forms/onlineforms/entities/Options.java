@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 public class Options {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "optionid")
     private Long optionId;
     private String name;

@@ -11,7 +11,7 @@ import java.util.List;
 public class Versions {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "versionid")
     private long versionid;

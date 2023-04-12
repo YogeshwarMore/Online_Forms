@@ -4,6 +4,7 @@ import com.dynamic.forms.onlineforms.dao.*;
 import com.dynamic.forms.onlineforms.dto.*;
 import com.dynamic.forms.onlineforms.entities.*;
 import com.dynamic.forms.onlineforms.entities.FormGroup;
+import com.dynamic.forms.onlineforms.exceptions.MyCustomException;
 import com.dynamic.forms.onlineforms.helper.FilledData;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -49,7 +50,8 @@ public class FormsImpl implements FormsServices {
     public Form createForms(CreateFormDTO form){
 
         Form f = new Form();
-        if(form.getFormname() !=null && form.getDescription()!=null) {
+        if(form.getFormname() !=null && form.getDescription()!=null)
+        {
             f.setFormname(form.getFormname());
             f.setDescription(form.getDescription());
             f.setChangedate(Date.valueOf(LocalDate.now()));
@@ -89,16 +91,12 @@ public class FormsImpl implements FormsServices {
 
                 if(ffdto.getToolid()==2 || ffdto.getToolid()==3)
                 for (Options o : ffdto.getOptions()) {
-                    System.out.println("i m here for"+o.getName());
 
                     if (o.getName() != null) {
-                        System.out.println("i m here for in if"+o.getName());
                         if (optionsDao.findByName(o.getName()) != null) {
-                            System.out.println("i m here for value in db"+o.getName());
-                            op = optionsDao.findByName(o.getName());
 
+                            op = optionsDao.findByName(o.getName());
                         } else {
-                            System.out.println("i m here for else"+o.getName());
                             Options p = new Options();
                             p.setName(o.getName());
                             op = optionsDao.save(p);
@@ -113,10 +111,11 @@ public class FormsImpl implements FormsServices {
 
             }
 
-        }//version end
-        }else {
+        //version end;
+        }else throw new MyCustomException("Null value Not Allowed");
 
-        }//form end
+        //form end
+        }else throw new MyCustomException("Null value Not Allowed");
 
         return f;
 
