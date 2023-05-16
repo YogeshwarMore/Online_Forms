@@ -15,11 +15,10 @@ import java.util.List;
 
 
 @RestController
+@CrossOrigin("*")
 public class MyController {
     @Autowired
     private FormsServices fs;
-
-
 
     //<editor-fold desc="Post Mapping Form">
 
@@ -41,13 +40,12 @@ public class MyController {
 
 
 
-    @PostMapping("/forms/{groupid}")
+    @PostMapping("/forms/creating")
 
     public ResponseEntity<FormField> createFields
-            (@RequestBody InsertFormDTO form,
-             @PathVariable Long groupid) {
+            (@RequestBody InsertFormDTO form) {
 
-        return new ResponseEntity<>(fs.createFields(form,groupid), HttpStatus.CREATED);
+        return new ResponseEntity<>(fs.createFields(form), HttpStatus.CREATED);
     }
 
 //    @PostMapping("/forms")
@@ -65,6 +63,11 @@ public class MyController {
         return fs.getFormVersion();
     }
 
+    @GetMapping("/tools")
+    public List<ToolBox> gettoolbox() {
+        return this.fs.getToolBox();
+    }
+
     @GetMapping("/forms")
     public List<Form> getForms() {
 
@@ -73,10 +76,9 @@ public class MyController {
 
     @GetMapping("/forms/formid/{Fid}/versionid/{vid}")
     public List<FormFieldDTO> getForm(
-            @PathVariable Long formid,
-            @PathVariable Long versionid) {
-
-        return  this.fs.getForm(formid,versionid);
+            @PathVariable Long Fid,
+            @PathVariable Long vid) {
+        return  this.fs.getForm(Fid,vid);
     }
     //</editor-fold>
 

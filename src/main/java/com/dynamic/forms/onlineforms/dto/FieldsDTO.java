@@ -5,22 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
-
-public class InsertFormDTO  {
-
-
-    private String formname;
-    private String description;
-    private float versionnumber;
-
-    private List<FieldsDTO> fieldsList;
-
+public class FieldsDTO {
+    int indexs ;
+    String fieldName;
+    Boolean isoptional;
+    Long toolid;
+    List<String> names;
 }

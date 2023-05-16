@@ -18,11 +18,11 @@ public class FormFieldDTO {
     @JsonIgnore
     private Long formgroupid;
     private String fieldtype;
-    private String fieldname;
+    private String fieldName;
     private Long toolid;
     private int indexs;
     private Boolean isoptional;
-    private List<String> name;
+    private List<String> names;
 
 
 }

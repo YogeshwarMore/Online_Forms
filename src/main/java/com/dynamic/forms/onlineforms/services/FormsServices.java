@@ -15,7 +15,7 @@ public interface FormsServices {
 
     public Form createForm(FormDTO form);
 
-    public FormField createFields(InsertFormDTO form, Long id);
+
 
     List<FormFieldDTO> getForm(Long fid, Long vnum);
 
@@ -28,13 +28,16 @@ public interface FormsServices {
     Versions createVersion(VersionsDTO v);
 
     List<GetFilledFormDTO> getFilledForm(Long filledFormId);
-
+    public FormField createFields(InsertFormDTO form);
      public void deleteForm(Long formid);
     public void delectVersion(Long versionid);
     public FilledForm getFilledForm(FilledFormFieldDTO ffdto,Long versionid, Long userid);
     public void deleteField(Long formGroupId);
 
     public Form createForms(CreateFormDTO form);
+
+    public List<ToolBox> getToolBox();
+
 
 //  public List<Form> getuserform(Long id, Float vnum, Long userid);
 }

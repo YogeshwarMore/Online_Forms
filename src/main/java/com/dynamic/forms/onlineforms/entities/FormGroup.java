@@ -14,7 +14,7 @@ public class FormGroup {
     @Column(name = "formgroupid")
     private long formgroupid;
     @Column(name = "name")
-    private String groupname;
+    private String name;
     @Column(name = "indexs")
     private int indexs;
     @JsonIgnore
@@ -51,11 +51,11 @@ public class FormGroup {
     }
 
     public String getName() {
-        return groupname;
+        return name;
     }
 
     public void setName(String name) {
-        this.groupname = name;
+        this.name = name;
     }
 
     public int getIndexs() {

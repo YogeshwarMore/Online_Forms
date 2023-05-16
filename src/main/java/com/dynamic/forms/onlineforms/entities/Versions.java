@@ -12,7 +12,6 @@ public class Versions {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "versionid")
     private long versionid;
     @Column(name = "versionnumber")
