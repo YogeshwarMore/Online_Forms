@@ -16,7 +16,7 @@ import java.util.List;
 
 public class InsertFormDTO  {
 
-
+    private Integer formid;
     private String formname;
     private String description;
     private float versionnumber;

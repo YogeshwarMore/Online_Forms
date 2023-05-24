@@ -31,12 +31,14 @@ public interface FormsServices {
     public FormField createFields(InsertFormDTO form);
      public void deleteForm(Long formid);
     public void delectVersion(Long versionid);
-    public FilledForm getFilledForm(FilledFormFieldDTO ffdto,Long versionid, Long userid);
+    public FilledForm getFilledForm(List<FilledFormFieldDTO> ffdto,Long versionid, Long userid);
     public void deleteField(Long formGroupId);
 
     public Form createForms(CreateFormDTO form);
 
     public List<ToolBox> getToolBox();
+
+    public Long getOptionid(String name);
 
 
 //  public List<Form> getuserform(Long id, Float vnum, Long userid);

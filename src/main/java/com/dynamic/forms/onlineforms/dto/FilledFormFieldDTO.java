@@ -2,6 +2,7 @@ package com.dynamic.forms.onlineforms.dto;
 
 import com.dynamic.forms.onlineforms.entities.FilledForm;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,9 +14,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FilledFormFieldDTO {
-
+    @JsonIgnore
     private Long filledformfieldid;
-
+    @JsonIgnore
     private Long filledformid;
 
     private Long formfieldid;

@@ -21,6 +21,11 @@ public class MyController {
     private FormsServices fs;
 
     //<editor-fold desc="Post Mapping Form">
+    @PostMapping("forms/{versionid}/{userid}")
+    public FilledForm getFilledForm(@RequestBody List<FilledFormFieldDTO> ffdto,@PathVariable  Long versionid,@PathVariable  Long userid)
+    {
+        return fs.getFilledForm(ffdto,versionid,userid);
+    }
 
     @PostMapping("/Forms")
         public Form createForms(
@@ -57,7 +62,20 @@ public class MyController {
     //</editor-fold>
 
     //<editor-fold desc="Get Mapping Form">
-    @GetMapping("/forms/version")
+
+    @GetMapping("forms/{versionid}")
+    public List<GetFilledFormDTO> getFilledForm(@PathVariable Long versionid){
+
+        return fs.getFilledForm(versionid);
+    }
+
+
+    @GetMapping("/forms/options/{name}")
+    public Long getOptionid(@PathVariable String name)
+    {
+        return fs.getOptionid(name);
+    }
+    @GetMapping("/forms/version/")
     public  List<FormVersionDTO> getFormVersion() {
 
         return fs.getFormVersion();
@@ -119,17 +137,6 @@ public class MyController {
         fs.deleteField(formGroupId);
     }
     //</editor-fold>
-
-    @GetMapping("forms/{filledFormId}")
-    public List<GetFilledFormDTO> getFilledForm(@PathVariable Long filledFormId){
-
-        return fs.getFilledForm(filledFormId);
-    }
-    @PostMapping("forms/{versionid}/{userid}")
-    public FilledForm getFilledForm(@RequestBody FilledFormFieldDTO ffdto,@PathVariable  Long versionid,@PathVariable  Long userid)
-    {
-        return fs.getFilledForm(ffdto,versionid,userid);
-    }
 
 
 }

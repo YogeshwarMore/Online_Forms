@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FormFieldDTO {
-    @JsonIgnore
+
     private Long formfieldid;
     @JsonIgnore
     private Long formgroupid;
