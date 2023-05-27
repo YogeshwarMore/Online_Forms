@@ -12,7 +12,7 @@ import java.util.List;
 public interface VersionsDao extends CrudRepository<Versions,Long> {
 
     @Query(value = "SELECT v.versionid, v.versionnumber,v.formid FROM Versions v WHERE v.formid = :formid",nativeQuery = true)
-    List<Versions> findByFormId(@Param("formid") Long id);
+    List<Versions> findByFormId(@Param("formid") long id);
 
     Versions findById(long id);
 

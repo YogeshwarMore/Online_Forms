@@ -11,30 +11,33 @@ public interface FormsServices {
 
     public abstract List<Form> getForms();
 
+    List<FormFieldDTO> getForm(long fid, long vnum);
+
     public List<FormVersionDTO> getFormVersion();
 
     public Form createForm(FormDTO form);
 
-    public FormField createFields(InsertFormDTO form, Long id);
+    Form updateForm(Form form, long formid);
 
-    List<FormFieldDTO> getForm(Long fid, Long vnum);
+    Versions updateVersion(Versions version, long versionid);
 
-    Form updateForm(Form form, Long formid);
-
-    Versions updateVersion(Versions version, Long versionid);
-
-    FormField updateField(FormField formfield, Long fieldid);
+    FormField updateField(FormField formfield, long fieldid);
 
     Versions createVersion(VersionsDTO v);
-
-    List<GetFilledFormDTO> getFilledForm(Long filledFormId);
-
-     public void deleteForm(Long formid);
-    public void delectVersion(Long versionid);
-    public FilledForm getFilledForm(FilledFormFieldDTO ffdto,Long versionid, Long userid);
-    public void deleteField(Long formGroupId);
+    Form getformdetails(long f);
+    List<GetFilledFormDTO> getFilledForm(long filledFormId);
+    public FormField createFields(InsertFormDTO form);
+     public void deleteForm(long formid);
+    public void delectVersion(long versionid);
+    public FilledForm getFilledForm(List<FilledFormFieldDTO> ffdto,long versionid, long userid);
+    public void deleteField(long formGroupId);
 
     public Form createForms(CreateFormDTO form);
+
+    public List<ToolBox> getToolBox();
+
+    public long getOptionid(String name);
+
 
 //  public List<Form> getuserform(Long id, Float vnum, Long userid);
 }

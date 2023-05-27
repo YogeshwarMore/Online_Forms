@@ -15,7 +15,7 @@ public interface FilledFormDao extends JpaRepository<FilledForm,Long> {
     public FilledFormDao findById(long id);
 
     @Query(value = "select ff.filledformid, ff.userid,ff.filldate,ff.versionid from filledform ff where versionid= :id1",nativeQuery = true)
-    List<FilledForm> findByVersion(@Param("id1") Long versionid);
+    List<FilledForm> findByVersion(@Param("id1") long versionid);
 
 
 }

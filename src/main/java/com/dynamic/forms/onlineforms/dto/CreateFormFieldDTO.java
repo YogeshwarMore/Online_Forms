@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 public class CreateFormFieldDTO {
     private String fieldname;
-    private Long toolid;
+    private long toolid;
     private int indexs;
     private Boolean isoptional;
     private List<com.dynamic.forms.onlineforms.entities.Options> Options;

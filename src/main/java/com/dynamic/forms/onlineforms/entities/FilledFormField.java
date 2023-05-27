@@ -3,7 +3,8 @@ package com.dynamic.forms.onlineforms.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.*;
+import javax.persistence.*;
+
 
 import java.util.Date;
 
@@ -25,7 +26,7 @@ public class FilledFormField {
     private FormField formfieldid;
     private Integer ischecked;
     private String textvalue;
-    private Long numericvalue;
+    private long numericvalue;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date datetimevalue;
     @ManyToOne
@@ -81,11 +82,11 @@ public class FilledFormField {
         this.textvalue = textvalue;
     }
 
-    public Long getNumericvalue() {
+    public long getNumericvalue() {
         return numericvalue;
     }
 
-    public void setNumericvalue(Long numericvalue) {
+    public void setNumericvalue(long numericvalue) {
         this.numericvalue = numericvalue;
     }
 

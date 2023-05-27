@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class OptionDTO {
     @JsonIgnore
-    private Long optionid;
+    private long optionid;
     private String name;
 }

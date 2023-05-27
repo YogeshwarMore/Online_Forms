@@ -1,16 +1,14 @@
 package com.dynamic.forms.onlineforms.services;
-
 import com.dynamic.forms.onlineforms.dao.*;
 import com.dynamic.forms.onlineforms.dto.*;
 import com.dynamic.forms.onlineforms.entities.*;
 import com.dynamic.forms.onlineforms.entities.FormGroup;
 import com.dynamic.forms.onlineforms.exceptions.MyCustomException;
 import com.dynamic.forms.onlineforms.helper.FilledData;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,17 +21,16 @@ public class FormsImpl implements FormsServices {
     //<editor-fold desc="Dao Autowired">
     @Autowired
     private ModelMapper modelMapper;
-
     @Autowired
     private FormsDao formsdao;
+    @Autowired
+    private UserDao userdao;
     @Autowired
     private FormGroupDao formgroupdao;
     @Autowired
     private VersionsDao versionsdao;
-
     @Autowired
     private FormFieldDao formfielddao;
-
     @Autowired
     private FilledFormDao filledformdao;
     @Autowired
@@ -44,6 +41,8 @@ public class FormsImpl implements FormsServices {
     private OptionsDao optionsDao;
     @Autowired
     private OptionFormFieldsDao optionFormFieldsDao;
+    @Autowired
+    private UserDao userDao;
     //</editor-fold>
 
     @Transactional
@@ -83,7 +82,7 @@ public class FormsImpl implements FormsServices {
                     ff.setIsoptional(1);
                 else
                     ff.setIsoptional(0);
-                ff.setToolid(toolBoxDao.findById((long)ffdto.getToolid()));
+                ff.setToolid(toolBoxDao.findById(ffdto.getToolid()));
                 ff.setFormgroupid(fg);
                 ff=formfielddao.save(ff);
 
@@ -102,9 +101,10 @@ public class FormsImpl implements FormsServices {
                             op = optionsDao.save(p);
                         }
                     }
-                    OptionFormFields of = new OptionFormFields();
+                    OptionFormFields of = new OptionFormFields();{
                     of.setFormField(ff);
                     of.setOption(op);
+                    }
 
                     optionFormFieldsDao.save(of);
                 }
@@ -122,23 +122,22 @@ public class FormsImpl implements FormsServices {
     }
 
     //<editor-fold desc="Get Functions">
+
+
     @Override
     public List<Form> getForms() {
         return (List<Form>) formsdao.findAll();
     }
 
 
+
     @Override
-    public List<FormFieldDTO> getForm(Long fid, Long vnum) {
+    public List<FormFieldDTO> getForm(long fid, long vnum) {
 
-//        formsdao.getform(fid,vnum).get(0).getFormid();
+        //formsdao.getform(fid,vnum).get(0).getFormid();
         List<FormFieldDTO> fgdto = new ArrayList<>();
-
-        List<Versions> v = versionsdao.findByFormId((long) 2);
-
         List<OptionFormFields> off = new ArrayList<>();
 
-        List<String> nm = new ArrayList<>();
 
         for (FormGroup fg : formgroupdao.findByGroupId(vnum)) {
             for (FormField ff : formfielddao.FindByFGId(fg.getFormgroupid())) {
@@ -147,7 +146,7 @@ public class FormsImpl implements FormsServices {
                 FormFieldDTO ffd = new FormFieldDTO();
 
                 ffd.setFormfieldid(ff.getFormfieldid());
-                ffd.setFieldname(ff.getFieldname());
+                ffd.setFieldName(ff.getFieldname());
                 ffd.setFormgroupid(ff.getFormgroupid().getFormgroupid());
                 ffd.setToolid(ff.getToolid().getId());
                 ffd.setIndexs(ff.getIndexs());
@@ -159,16 +158,15 @@ public class FormsImpl implements FormsServices {
 
                 if (ffd.getToolid() == 2 || ffd.getToolid() == 3) {
 
-                    off = optionFormFieldsDao.getOptionByField(ffd.getFormfieldid());
+                    off = optionFormFieldsDao.getOptionByField(ff.getFormfieldid());
 
-
+                    List<String> nm = new ArrayList<>();
                     for (OptionFormFields of : off) {
-
                         nm.add(of.getOption().getName());
-                        ffd.setName(nm);
-                    }
-                }
 
+                    }
+                        ffd.setNames(nm);
+                }
 
                 fgdto.add(ffd);
 
@@ -206,6 +204,17 @@ public class FormsImpl implements FormsServices {
 
         return formver;
     }
+    @Override
+    public List<ToolBox> getToolBox()
+    {
+       return toolBoxDao.findAll();
+    }
+
+    @Override
+    public long getOptionid(String name) {
+
+        return  optionsDao.findByName(name).getOptionId();
+    }
     //</editor-fold>
 
     //<editor-fold desc="Create Functions">
@@ -219,6 +228,9 @@ public class FormsImpl implements FormsServices {
 
         return f;
     }
+
+
+
 
     @Override
     public Versions createVersion(VersionsDTO v) {
@@ -239,55 +251,89 @@ public class FormsImpl implements FormsServices {
         return vv;
     }
 
+    @Override
+    public Form getformdetails(long f) {
+        return formsdao.findById((long)f);
+    }
 
     @Override
-    public FormField createFields(InsertFormDTO form, Long groupid) {
+    public FormField createFields(InsertFormDTO form) {
 
-        FormGroup fg = formgroupdao.findById((long) groupid);
+        Form f = new Form();
+        Versions vv = new Versions();
+        FormGroup fg = new FormGroup();
+        FormField ff =new FormField();
 
-        ToolBox tb = toolBoxDao.findById((long) form.getToolid());
+        if(form.getFormname() !=null && form.getDescription()!=null)
+        {
+            if((Long)form.getFormid()!=null){
+            f.setFormid(form.getFormid());
 
-        FormField ff = new FormField();
-        ff = this.modelMapper.map(form, FormField.class);
+            }
+            f.setFormname(form.getFormname());
+            f.setDescription(form.getDescription());
+            f.setChangedate(Date.valueOf(LocalDate.now()));
+            f.setCreationdate(f.getChangedate());
+            f = formsdao.save(f);
 
-        if (form.getIsoptional())
-            ff.setIsoptional(1);
-        else
-            ff.setIsoptional(0);
-        ff.setFormgroupid(fg);
-        ff.setToolid(tb);
 
-        ff = formfielddao.save(ff);
+            if((Float)form.getVersionnumber() != null) {
+                vv.setVersionnumber(form.getVersionnumber());
+                vv.setFormid(f);
+                vv = versionsdao.save(vv);
 
-        ff = addoption(ff, form);
+                System.out.println(vv.getFormid().getFormid());
+                fg.setIndexs(1);
+                fg.setName("FG1");
+                fg.setVersionid(vv);
+                fg = formgroupdao.save(fg);
 
+
+                for (FieldsDTO form1 : form.getFieldsList()) {
+                    ToolBox tb = toolBoxDao.findById((long) form1.getToolid());
+                    ff = this.modelMapper.map(form, FormField.class);
+                    ff.setFieldname(form1.getFieldName());
+                    ff.setIndexs(form1.getIndexs());
+
+                    if (form1.getIsoptional())
+                        ff.setIsoptional(1);
+                    else
+                        ff.setIsoptional(0);
+                    ff.setFormgroupid(fg);
+                    ff.setToolid(tb);
+
+                    ff = formfielddao.save(ff);
+
+                    ff = addoption(ff, form1);
+                }
+            }
+        }
         return ff;
     }
 
-    public FormField addoption(FormField ff, InsertFormDTO form) {
+    public FormField addoption(FormField ff, FieldsDTO form){
+            Options op = new Options();
+            if(form.getNames()==null)
+                return null;
+            for (String o : form.getNames()) {
 
-        Options op = new Options();
+                if (o != null) {
+                    if (optionsDao.findByName(o) != null) {
 
-        for (String o : form.getName()) {
+                        op = optionsDao.findByName(o);
 
-            if (o != null) {
-                if (optionsDao.findByName(o) != null) {
-
-                    op = optionsDao.findByName(o);
-
-
-                } else {
-                    Options p = new Options();
-                    p.setName(o);
-                    op = optionsDao.save(p);
+                    } else {
+                        Options p = new Options();
+                        p.setName(o);
+                        op = optionsDao.save(p);
+                    }
                 }
-            }
-            OptionFormFields of = new OptionFormFields();
-            of.setFormField(ff);
-            of.setOption(op);
+                OptionFormFields of = new OptionFormFields();
+                of.setFormField(ff);
+                of.setOption(op);
 
-            optionFormFieldsDao.save(of);
-        }
+                optionFormFieldsDao.save(of);
+            }
 
         return ff;
     }
@@ -295,7 +341,7 @@ public class FormsImpl implements FormsServices {
 
     //<editor-fold desc="update functions">
     @Override
-    public Form updateForm(Form form, Long formid) {
+    public Form updateForm(Form form, long formid) {
 
         Form f = formsdao.findById((long) formid);
         f = modelMapper.map(f, Form.class);
@@ -308,7 +354,7 @@ public class FormsImpl implements FormsServices {
     }
 
     @Override
-    public Versions updateVersion(Versions version, Long versionid) {
+    public Versions updateVersion(Versions version, long versionid) {
         Versions vs = versionsdao.findById((long) versionid);
         vs = modelMapper.map(vs, Versions.class);
         vs.setVersionnumber(version.getVersionnumber());
@@ -318,7 +364,7 @@ public class FormsImpl implements FormsServices {
     }
 
     @Override
-    public FormField updateField(FormField formfield, Long fieldid) {
+    public FormField updateField(FormField formfield, long fieldid) {
         FormField ff = formfielddao.findById((long) fieldid);
         ff = modelMapper.map(ff, FormField.class);
         if (formfield.getFieldname() != null)
@@ -347,22 +393,22 @@ public class FormsImpl implements FormsServices {
 
     //<editor-fold desc="Delete Function">
     @Override
-    public void deleteForm(Long formid) {      formsdao.deleteById(formid);     }
+    public void deleteForm(long formid) {      formsdao.deleteById(formid);     }
 
     @Override
-    public void delectVersion(Long versionid)
+    public void delectVersion(long versionid)
     {
         versionsdao.deleteById(versionid);
     }
 
     @Override
-    public void deleteField(Long formGroupId) { formgroupdao.deleteById(formGroupId); }
+    public void deleteField(long formGroupId) { formgroupdao.deleteById(formGroupId); }
 
     //</editor-fold>
 
     //<editor-fold desc="Filled Form Post & Get">
     @Override
-    public List<GetFilledFormDTO> getFilledForm(Long versionId) {
+    public List<GetFilledFormDTO> getFilledForm(long versionId) {
 
         List<FilledForm> ff = filledformdao.findByVersion(versionId);
 
@@ -372,16 +418,17 @@ public class FormsImpl implements FormsServices {
 
             GetFilledFormDTO gffdto = new GetFilledFormDTO();
 
-            gffdto.setUserid((long) f.getUserid());
+            gffdto.setUser(userDao.findById(f.getUserid()));
+
             gffdto.setFilldate(f.getFilldate());
 
             List<FilledFormField> fff = filledfieldformdao.getFieldById(f.getFilledformid());
 
             List<FilledData> fdlist = new ArrayList<>();
 
-            String s = null;
 
             for (FilledFormField ff1 : fff) {
+                String s = new String();
 
                 FilledData fd = new FilledData();
 
@@ -390,8 +437,8 @@ public class FormsImpl implements FormsServices {
                 if (ff1.getDatetimevalue() != null)
                     fd.setValue(ff1.getDatetimevalue().toString());
 
-                else if (ff1.getNumericvalue() != null)
-                    fd.setValue(ff1.getNumericvalue().toString());
+                else if ((Long)ff1.getNumericvalue() != null && ff1.getNumericvalue() != 0)
+                    fd.setValue(ff1.getNumericvalue()+"");
 
                 else if (ff1.getDatetimevalue() != null)
                     fd.setValue(ff1.getTextvalue());
@@ -410,28 +457,37 @@ public class FormsImpl implements FormsServices {
     }
 
     @Override
-    public FilledForm getFilledForm(FilledFormFieldDTO ffdto,Long versionid, Long userid) {
+    public FilledForm getFilledForm(List<FilledFormFieldDTO> ffd,long versionid, long userid) {
 
-        FilledForm ff=new FilledForm();
+        List<FilledFormField> ff1 = new ArrayList<>();
+
+        FilledForm ff = new FilledForm();
         ff.setUserid(userid);
         ff.setVersionid(versionsdao.findById((long)versionid));
         ff.setFilldate(java.sql.Date.valueOf(java.time.LocalDate.now()));
-        ff=filledformdao.save(ff);
+        ff = filledformdao.save(ff);
 
-        FilledFormField fff=new FilledFormField();
-        fff.setFormfieldid(formfielddao.findById((long)ffdto.getFormfieldid()));
-        fff.setFilledformid(ff);
-        if(ffdto.getIschecked()!=null)
-        {
-            fff.setIschecked(ffdto.getIschecked());
-            fff.setOptionid(optionsDao.findById((long)ffdto.getOptionid()));
+        for(FilledFormFieldDTO ffdto:ffd) {
+
+            FilledFormField fff = new FilledFormField();
+            fff.setFormfieldid(formfielddao.findById(ffdto.getFormfieldid()));
+            fff.setFilledformid(ff);
+            if (ffdto.getTextvalue() != null){
+                fff.setTextvalue(ffdto.getTextvalue());
+                System.out.println(fff.getTextvalue());
+            }
+             if (ffdto.getIschecked() != null && ffdto.getIschecked() != 0) {
+                fff.setIschecked(ffdto.getIschecked());
+                fff.setOptionid(optionsDao.findById( ffdto.getOptionid()));
+                System.out.println(fff.getOptionid());
+            }
+            else if ((Long)ffdto.getNumericvalue() != null)
+                fff.setNumericvalue(ffdto.getNumericvalue());
+            else
+                fff.setDatetimevalue(ffdto.getDatetimevalue());
+            ff1.add(fff);
         }
-        else if(ffdto.getTextvalue()!=null)
-            fff.setTextvalue(ffdto.getTextvalue());
-        else if (ffdto.getNumericvalue()!=null)
-            fff.setNumericvalue(ffdto.getNumericvalue());
-        else
-            fff.setDatetimevalue(ffdto.getDatetimevalue());
+        filledfieldformdao.saveAll(ff1);
 
         return ff;
     }
@@ -443,7 +499,7 @@ public class FormsImpl implements FormsServices {
 //------------------------------------------------------------------------------
 
 
-    public List<Form> updateField(Form form, Long id, Float vnum) {
+    public List<Form> updateField(Form form, long id, Float vnum) {
 //        List<Form> list=new ArrayList<>();
 //        list = formsdao.getGroup(id,vnum);
 //

@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FormVersionDTO {
-    private Long formid;
+    private long formid;
     private String formname;
     private List<Versions> version;
 

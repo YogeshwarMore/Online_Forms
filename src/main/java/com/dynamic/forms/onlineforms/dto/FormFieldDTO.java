@@ -13,16 +13,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FormFieldDTO {
+
+    private long formfieldid;
     @JsonIgnore
-    private Long formfieldid;
-    @JsonIgnore
-    private Long formgroupid;
+    private long formgroupid;
     private String fieldtype;
-    private String fieldname;
-    private Long toolid;
+    private String fieldName;
+    private long toolid;
     private int indexs;
     private Boolean isoptional;
-    private List<String> name;
+    private List<String> names;
 
 
 }

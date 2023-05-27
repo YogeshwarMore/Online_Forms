@@ -1,14 +1,13 @@
 package com.dynamic.forms.onlineforms.entities;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 @Entity
 @Table(name = "toolbox")
 public class ToolBox {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "toolid", nullable = false)
-    private Long toolid;
+    private long toolid;
 
     @Column(name = "name")
     private String name;

@@ -1,7 +1,7 @@
 package com.dynamic.forms.onlineforms.entities;
 
-import jakarta.persistence.*;
 
+import javax.persistence.*;
 @Entity
 @Table(name = "optionformfields")
 public class OptionFormFields {
@@ -17,11 +17,11 @@ public class OptionFormFields {
     @JoinColumn(name = "optionid")
     private Options option;
 
-    public Long getOptionformfieldsid() {
+    public long getOptionformfieldsid() {
         return optionformfieldsid;
     }
 
-    public void setOptionformfieldsid(Long optionformfieldsid) {
+    public void setOptionformfieldsid(long optionformfieldsid) {
         this.optionformfieldsid = optionformfieldsid;
     }
 

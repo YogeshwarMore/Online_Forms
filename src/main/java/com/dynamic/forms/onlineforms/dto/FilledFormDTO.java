@@ -15,7 +15,7 @@ import java.util.Date;
 public class FilledFormDTO {
     private long filledformid;
 
-    private Long versionid;
+    private long versionid;
 
     private int userid;
 

@@ -13,8 +13,8 @@ import lombok.Setter;
 
 public class FormGroup {
     @JsonIgnore
-    private Long formgroupid;
+    private long formgroupid;
     private String groupname;
     private int indexs;
-    private Long versionid;
+    private long versionid;
 }

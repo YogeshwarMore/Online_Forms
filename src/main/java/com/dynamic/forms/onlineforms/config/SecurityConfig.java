@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition
 @Configuration
 public class SecurityConfig {
-
     @Bean
     public OpenAPI baseOpenApi(){
         return new OpenAPI().info(new Info().title("Spring mvc").version("1.0.0").description("Spring doc"));

@@ -11,6 +11,6 @@ public interface OptionFormFieldsDao extends JpaRepository<OptionFormFields,Long
 
     @Query(value = "\n" +
             "select off.optionformfieldsid,off.formfieldid,off.optionid from optionformfields off where off.formfieldid= :id1 ",nativeQuery = true)
-    List<OptionFormFields> getOptionByField(@Param("id1") Long fieldid);
+    List<OptionFormFields> getOptionByField(@Param("id1") long fieldid);
 
 }

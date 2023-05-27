@@ -13,17 +13,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InsertFormDTO {
-
-
+    private long formid;
     private String formname;
     private String description;
     private float versionnumber;
-    private int indexs;
-    private String fieldName;
-    private Boolean isoptional;
-    private Long toolid;
-    private String optionname;
-    private List<String> name;
+
+    private List<FieldsDTO> fieldsList;
 
 
 

@@ -50,9 +50,9 @@ public interface FormsDao extends CrudRepository<Form,Long> {
               "  f.formId = :id1 AND \n" +
               "  v.versionid = :id2 \n" +
               "\n ",nativeQuery = true)
-      List<FormDTO> getform(@Param("id1") Long id, @Param ("id2")Float vnum);
+      List<FormDTO> getform(@Param("id1") long id, @Param ("id2")Float vnum);
 
       @Query(value = "SELECT a.* FROM Form a INNER JOIN versions b ON a.formid = b.formid WHERE a.formid = :id1 AND b.versionid = :id2", nativeQuery = true)
-      List<Form> getGroup(@Param("id1") Long id1, @Param("id2") Float id2);
+      List<Form> getGroup(@Param("id1") long id1, @Param("id2") Float id2);
 
 }

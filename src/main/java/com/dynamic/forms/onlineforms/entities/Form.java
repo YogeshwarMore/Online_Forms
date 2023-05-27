@@ -1,9 +1,9 @@
 package com.dynamic.forms.onlineforms.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +17,7 @@ public class Form {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "formid")
-    private int formid;
+    private long formid;
     @Column(name = "formname")
     private String formname;
     @Column(name = "description")
@@ -53,11 +53,11 @@ public class Form {
     }
 
     // Getters and Setters
-    public int getFormid() {
+    public long getFormid() {
         return formid;
     }
 
-    public void setFormid(int formid) {
+    public void setFormid(long formid) {
         this.formid = formid;
     }
 

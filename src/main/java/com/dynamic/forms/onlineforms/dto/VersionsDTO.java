@@ -2,7 +2,7 @@ package com.dynamic.forms.onlineforms.dto;
 
 import com.dynamic.forms.onlineforms.entities.Form;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class VersionsDTO {
     @JsonIgnore
-    private Long versionid;
+    private long versionid;
     private float versionnumber;
-    private Long formid;
+    private long formid;
 }

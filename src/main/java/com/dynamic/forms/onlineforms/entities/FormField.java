@@ -1,7 +1,7 @@
 package com.dynamic.forms.onlineforms.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class FormField {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "formfieldid")
-    private Long formfieldid;
+    private long formfieldid;
     @JsonIgnore
     @ManyToOne()
     @JoinColumn(name = "formgroupid", referencedColumnName = "formgroupid")
