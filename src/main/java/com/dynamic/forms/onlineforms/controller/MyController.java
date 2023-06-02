@@ -29,6 +29,12 @@ public class MyController {
         return fs.getFilledForm(ffdto,versionid,userid);
     }
 
+    @PostMapping("forms/newuser")
+    @CrossOrigin(origins = "http://localhost:4200")
+    public void createUser(@RequestBody User user)
+    {
+        fs.createUser(user);
+    }
     @PostMapping("/Forms")
     @CrossOrigin(origins = "http://localhost:4200")
         public Form createForms(

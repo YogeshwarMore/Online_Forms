@@ -5,7 +5,7 @@ import com.dynamic.forms.onlineforms.entities.*;
 import com.dynamic.forms.onlineforms.entities.FormGroup;
 import com.dynamic.forms.onlineforms.exceptions.MyCustomException;
 import com.dynamic.forms.onlineforms.helper.FilledData;
-import javax.transaction.Transactional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +45,7 @@ public class FormsImpl implements FormsServices {
     private UserDao userDao;
     //</editor-fold>
 
-    @Transactional
+
     public Form createForms(CreateFormDTO form){
 
         Form f = new Form();
@@ -123,6 +123,11 @@ public class FormsImpl implements FormsServices {
 
     //<editor-fold desc="Get Functions">
 
+
+    @Override
+    public void createUser(User user) {
+        this.userDao.save((user));
+    }
 
     @Override
     public List<Form> getForms() {
