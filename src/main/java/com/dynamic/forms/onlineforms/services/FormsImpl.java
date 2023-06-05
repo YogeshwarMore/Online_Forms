@@ -253,7 +253,7 @@ public class FormsImpl implements FormsServices {
 
     @Override
     public Form getformdetails(long f) {
-        return formsdao.findById((long)f);
+        return formsdao.findById(f);
     }
 
     @Override
@@ -263,17 +263,21 @@ public class FormsImpl implements FormsServices {
         Versions vv = new Versions();
         FormGroup fg = new FormGroup();
         FormField ff =new FormField();
-
+        List<Versions> versionsList=new ArrayList<>();
         if(form.getFormname() !=null && form.getDescription()!=null)
         {
-            if((Long)form.getFormid()!=null){
-            f.setFormid(form.getFormid());
 
-            }
+            if((Long)form.getFormid()!=null && form.getFormid()!=0){
+            f.setFormid(form.getFormid());
+            f.setCreationdate(formsdao.findById(form.getFormid()).getCreationdate());
+            }else
+                f.setCreationdate(Date.valueOf(LocalDate.now()));
             f.setFormname(form.getFormname());
             f.setDescription(form.getDescription());
             f.setChangedate(Date.valueOf(LocalDate.now()));
-            f.setCreationdate(f.getChangedate());
+
+
+            if((Long)form.getFormid()==null || form.getFormid()==0)
             f = formsdao.save(f);
 
 
@@ -307,6 +311,9 @@ public class FormsImpl implements FormsServices {
                     ff = addoption(ff, form1);
                 }
             }
+        }
+        if(versionsList !=null){
+            versionsList.forEach(version-> updateVersion(version,version.getVersionid()));
         }
         return ff;
     }
@@ -346,11 +353,24 @@ public class FormsImpl implements FormsServices {
         Form f = formsdao.findById((long) formid);
         f = modelMapper.map(f, Form.class);
         f.setFormname(form.getFormname());
-        f.setDescription(form.getDescription());
+        f.setDescription(f.getDescription());
         f.setChangedate(Date.valueOf(LocalDate.now()));
+        f.setFlag(1);
         formsdao.save(f);
 
         return form;
+    }
+    public void updateflag(boolean value,long formid)
+    {
+        Form f = formsdao.findById(formid);
+        f = modelMapper.map(f, Form.class);
+        f.setFormname(f.getFormname());
+        f.setDescription(f.getDescription());
+        f.setChangedate(Date.valueOf(LocalDate.now()));
+        if(value)
+        f.setFlag(1);
+        else f.setFlag(0);
+        formsdao.save(f);
     }
 
     @Override
@@ -358,6 +378,7 @@ public class FormsImpl implements FormsServices {
         Versions vs = versionsdao.findById((long) versionid);
         vs = modelMapper.map(vs, Versions.class);
         vs.setVersionnumber(version.getVersionnumber());
+        vs.setFormid(version.getFormid());
         versionsdao.save(vs);
 
         return vs;
@@ -403,6 +424,13 @@ public class FormsImpl implements FormsServices {
 
     @Override
     public void deleteField(long formGroupId) { formgroupdao.deleteById(formGroupId); }
+    @Override
+    public void deleteuser(long userid,long vid){
+
+        FilledForm filledForm;
+        filledForm=filledformdao.findByUseridAndVersionid(userid,vid);
+        filledformdao.deleteById(filledForm.getFilledformid());
+    }
 
     //</editor-fold>
 

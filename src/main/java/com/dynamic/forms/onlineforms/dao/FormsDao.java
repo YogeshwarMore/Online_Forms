@@ -14,9 +14,8 @@ import java.util.List;
 @Repository
 public interface FormsDao extends CrudRepository<Form,Long> {
 
-
-      Form findById(long id);
-
+      @Query(value = " select f.formid,f.formname,f.description,f.creationdate,f.changedate,f.flag from form f where f.formid=:id" ,nativeQuery = true)
+      Form findById(@Param("id") long id);
 
 
       @Query(value = " \n" +

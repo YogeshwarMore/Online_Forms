@@ -34,10 +34,12 @@ public interface FormsServices {
 
     public Form createForms(CreateFormDTO form);
 
+    public void deleteuser(long id,long vid);
+
     public List<ToolBox> getToolBox();
 
     public long getOptionid(String name);
-
+    void updateflag(boolean value,long formid);
 
 //  public List<Form> getuserform(Long id, Float vnum, Long userid);
 }

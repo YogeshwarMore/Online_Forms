@@ -14,24 +14,36 @@ import java.util.List;
 @Table(name = "form")
 public class Form {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "formid")
     private long formid;
     @Column(name = "formname")
     private String formname;
+
+
+
     @Column(name = "description")
     private String description;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date creationdate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date changedate;
-
+    @Column(name = "flag")
+    private int flag;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "formid")
     private List<Versions> versionsList = new ArrayList<>();
 
+    public int getFlag() {
+        return flag;
+    }
+    public void setFlag(int flag) {
+        this.flag = flag;
+    }
     public List<Versions> getVersionsList() {
         return versionsList;
     }
@@ -43,14 +55,6 @@ public class Form {
     public Form() {
     }
 
-    // Parameterized constructor
-    public Form(int formid, String formname, String description, Date creationdate, Date changedate) {
-        this.formid = formid;
-        this.formname = formname;
-        this.description = description;
-        this.creationdate = creationdate;
-        this.changedate = changedate;
-    }
 
     // Getters and Setters
     public long getFormid() {
@@ -91,6 +95,15 @@ public class Form {
 
     public void setChangedate(Date changedate) {
         this.changedate = changedate;
+    }
+    public Form(long formid, String formname, String description, Date creationdate, Date changedate, int flag, List<Versions> versionsList) {
+        this.formid = formid;
+        this.formname = formname;
+        this.description = description;
+        this.creationdate = creationdate;
+        this.changedate = changedate;
+        this.flag = flag;
+        this.versionsList = versionsList;
     }
 
 }

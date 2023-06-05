@@ -23,7 +23,7 @@ public class FilledForm {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "filledformid")
     private long filledformid;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JsonIgnore
     @JoinColumn(name = "versionid")
     private Versions versionid;
@@ -33,7 +33,7 @@ public class FilledForm {
     @Column(name = "filldate")
     private Date filldate;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true)
     @JoinColumn(name = "filledformid")
     private List<FilledFormField> filledFormFieldList = new ArrayList<>();
 

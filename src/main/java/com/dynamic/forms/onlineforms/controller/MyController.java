@@ -72,6 +72,7 @@ public class MyController {
         public Form getform(@PathVariable long id){
         return fs.getformdetails(id);
     }
+
     @GetMapping("forms/{versionid}")
     @CrossOrigin(origins = "http://localhost:4200")
     public List<GetFilledFormDTO> getFilledForm(@PathVariable long versionid){
@@ -116,11 +117,18 @@ public class MyController {
     //</editor-fold>
 
     //<editor-fold desc="Put Mapping Form">
-    @PutMapping("/forms/{formid}")
+    @PutMapping("/forms/formid/{formid}")
     @CrossOrigin(origins = "http://localhost:4200")
     public Form updateForm(@RequestBody Form form,@PathVariable long formid)
     {
         return fs.updateForm(form,formid);
+    }
+
+    @PutMapping("/forms/flag/{value}/{formid}")
+    @CrossOrigin(origins = "http://localhost:4200")
+    public String updateflag(@PathVariable boolean value,@PathVariable long formid){
+         fs.updateflag(value,formid);
+         return "sucess";
     }
 
     @PutMapping("/forms/version/{versionid}")
@@ -139,22 +147,22 @@ public class MyController {
     //</editor-fold>
 
     //<editor-fold desc="Delete Mapping Form">
-    @DeleteMapping("forms/{formid}")
+    @DeleteMapping("forms/formid/{formid}")
     public void deleteForm(@PathVariable long formid)
     {
         fs.deleteForm(formid);
     }
 
-    @DeleteMapping("forms/{versionid}")
+    @DeleteMapping("forms/versionid/{versionid}")
     public void deleteVersion(@PathVariable long versionid){
         fs.delectVersion(versionid);
     }
-    @DeleteMapping("/forms/{formgroup}")
-    public void deletefield(@PathVariable long formGroupId)
+
+    @DeleteMapping("/forms/{userid}/{versionid}")
+    public void deleteuser(@PathVariable long userid,@PathVariable long versionid)
     {
-        fs.deleteField(formGroupId);
+        fs.deleteuser(userid,versionid);
     }
     //</editor-fold>
-
 
 }
