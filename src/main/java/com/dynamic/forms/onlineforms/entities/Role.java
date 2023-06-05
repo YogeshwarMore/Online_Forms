@@ -16,9 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "roleid", nullable = false)
-    private Long roleid;
+    private long roleid;
 
     @Column(name = "rolename")
     private String rolename;

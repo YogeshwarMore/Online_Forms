@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface FormsServices {
 
+    public void createUser(User user);
     public abstract List<Form> getForms();
 
     List<FormFieldDTO> getForm(long fid, long vnum);
