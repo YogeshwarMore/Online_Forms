@@ -317,9 +317,8 @@ public class FormsImpl implements FormsServices {
                 }
             }
         }
-        if(versionsList !=null){
-            versionsList.forEach(version-> updateVersion(version,version.getVersionid()));
-        }
+        if(!((Long)form.getFormid()==null || form.getFormid()==0))
+        updateForm(f,f.getFormid());
         return ff;
     }
 
@@ -355,12 +354,13 @@ public class FormsImpl implements FormsServices {
     @Override
     public Form updateForm(Form form, long formid) {
 
+        System.out.println("runnig");
         Form f = formsdao.findById((long) formid);
         f = modelMapper.map(f, Form.class);
         f.setFormname(form.getFormname());
-        f.setDescription(f.getDescription());
+        f.setDescription(form.getDescription());
         f.setChangedate(Date.valueOf(LocalDate.now()));
-        f.setFlag(1);
+        f.setFlag(f.getFlag());
         formsdao.save(f);
 
         return form;
