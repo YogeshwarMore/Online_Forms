@@ -12,9 +12,9 @@ import java.util.List;
 @Repository
 public interface FilledFieldFormDao extends JpaRepository<FilledFormField,Long> {
 
-    @Query(value = "SELECT f.filledFormFieldId, f.filledFormId, f.formFieldId, \n" +
-            "f.isChecked, f.textValue, f.numericValue, f.dateTimeValue, f.optionId\n" +
-            "FROM filledFormField f where f.filledFormId= :id1 ;",nativeQuery = true)
+    @Query(value = "SELECT f.filledformfieldid, f.filledFormid, f.formfieldid, \n" +
+            "f.ischecked, f.textvalue, f.numericvalue, f.datetimevalue, f.optionid\n" +
+            "FROM filledformfield f where f.filledformid= :id1 ;",nativeQuery = true)
         public List<FilledFormField> getFieldById(@Param("id1") long id);
 
 }
